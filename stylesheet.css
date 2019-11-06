@@ -1,0 +1,95 @@
+@keyframes spin {
+  0% {
+    margin-top: 0%;
+  }
+  5% {
+    margin-top: 5%;
+  }
+  100% {
+    margin-top: calc( -25vh * 42 );
+  }
+}
+
+@keyframes fadeout {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes moveleft {
+  100% {
+    left: 30%;
+  }
+}
+
+@keyframes fadeInfoIn {
+  0% {
+    opacity: 0;
+    left: 50%;
+  }
+  100% {
+    opacity: 1;
+    left: 60%;
+  }
+}
+
+#list {
+  flex-direction: column;
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  left: 41.25%;
+  width: 17.5%;
+}
+
+#start {
+  position: fixed;
+  top: 0;
+  left: calc(41.25% - 2.5px);
+  top: calc(40% - 2.5px);
+  width: 17.5%;
+  height: 20%;
+  background: #005e34;
+  border-radius: 10px;
+}
+#start > span {
+  position: relative;
+  display: flex;
+  top: 25%;
+  left: 25%;
+  width: 50%;
+  height: 50%;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: white;
+  border-radius: 10px;
+}
+
+.item {
+  display: flex;
+  position: relative;
+  flex: 1;
+  top: 0;
+  height: 25vh;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.item > img {
+  flex: 1;
+}
