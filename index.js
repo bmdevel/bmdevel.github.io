@@ -10,6 +10,7 @@ let win = total-index-1;
 let totalchance = 0.0;
 let windata = null;
 
+let spinning = false;
 let chances = [];
 
 for(let i = 0; i<items.length; i++) {
@@ -31,30 +32,34 @@ async function newSpin() {
 
 
 start.onclick = () => {
-  newSpin();
+  if(!spinning) {
+    spinning = true;
+    newSpin();
 
-  start.style.animation = 'fadeout 1s';
-  start.style.animationFillMode = 'forwards';
+    start.style.animation = 'fadeout 1s';
+    start.style.animationFillMode = 'forwards';
 
-  list.style.animation = 'fadein 1s';
-  list.style.animationFillMode = 'forwards';
-
-  setTimeout(() => {
-    list.style.opacity = '1';
-    list.style.animation = 'spin 8s ease';
+    list.style.animation = 'fadein 1s';
     list.style.animationFillMode = 'forwards';
-  }, 1000);
 
-  setTimeout(() => {
-    for(let i = 0; i<total-1; i++) if(i!=win) list.children[i].style.animation = "fadeout 1s forwards";
-  }, 9000);
+    setTimeout(() => {
+      list.style.opacity = '1';
+      list.style.animation = 'spin 8s ease';
+      list.style.animationFillMode = 'forwards';
+    }, 1000);
 
-  setTimeout(() => {
-    list.children[win].style.animation = "fadeout 1s forwards";
-  }, 14000);
-  
-  setTimeout(() => {
-    list.innerHTML = '';
-    start.style.animation = "fadein 1s forwards";
-  }, 15000)
+    setTimeout(() => {
+      for(let i = 0; i<total-1; i++) if(i!=win) list.children[i].style.animation = "fadeout 1s forwards";
+    }, 9000);
+
+    setTimeout(() => {
+      list.children[win].style.animation = "fadeout 1s forwards";
+    }, 14000);
+    
+    setTimeout(() => {
+      list.innerHTML = '';
+      start.style.animation = "fadein 1s forwards";
+      spinning = false;
+    }, 15000)
+  }
 };
