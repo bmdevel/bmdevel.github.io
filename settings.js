@@ -6,23 +6,23 @@ var settings = {
   "items": [
     {
       "image_url": "./images/parkuhr.png",
-      "chance": 2
+      "chance": 6
     },
     {
       "image_url": "./images/brotdose.png",
-      "chance": 8
+      "chance": 12
     },
     {
       "image_url": "./images/flasche.png",
-      "chance": 14
+      "chance": 22
     },
     {
       "image_url": "./images/kugelschreiber.png",
-      "chance": 38
+      "chance": 30
     },
     {
       "image_url": "./images/flaschenoeffner.png",
-      "chance": 38
+      "chance": 30
     }
   ]
 }
