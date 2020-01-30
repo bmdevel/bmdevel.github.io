@@ -19,6 +19,9 @@ for(let i = 0; i<items.length; i++) {
 }
 
 function newSpin() {
+  list.style.top = '0';
+  while(list.lastChild) list.removeChild(list.lastChild);
+
   for(let i = 0; i<total; i++) {
     let e = dummy.cloneNode(true);
     e.style.display = '';
@@ -57,8 +60,6 @@ document.addEventListener('touchend', e => {
     let v = diffY/diffTime*30;
     let i = 0;
 
-    console.log(v);
-
     const move = () => {
       let i1 = Math.floor(i-(v-=decelleration/10));
 
@@ -77,9 +78,37 @@ document.addEventListener('touchend', e => {
         } else {
           list.style.top = `${i1}px`;
 
-          winIndex = i1
+          winIndex = -Math.round(i1/256)+1;
 
-          spinning = false;
+          for(let i = 0; i<total; i++) {
+            if(i!==winIndex) {
+              let e = list.children[i];
+              e.style.animation = 'fadeout 1s';
+              e.style.animationFillMode = 'forwards';
+            }
+          }
+
+          list.animate([
+            {
+              top: `${i1}px`,
+            },
+            {
+              top: `-${(winIndex-1)*256}px`,
+            },
+          ], 1000).onfinish = () => {
+            list.style.top = `-${(winIndex-1)*256}px`;
+
+            setTimeout(() => {
+              list.style.animation = 'fadeout 1s';
+              list.style.animationFillMode = 'forwards';
+
+              start.style.animation = 'fadein 1s';
+              start.style.animationFillMode = 'forwards';
+
+              spinning = false;
+            }, 1000);
+          };
+
           clickEnded = false;
           clickBegin = false;
         }
