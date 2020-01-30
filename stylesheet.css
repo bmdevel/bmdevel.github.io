@@ -1,15 +1,3 @@
-@keyframes spin {
-  0% {
-    margin-top: 0%;
-  }
-  5% {
-    margin-top: 5%;
-  }
-  100% {
-    margin-top: calc( -45vh * 42.3 );
-  }
-}
-
 @keyframes fadeout {
   0% {
     opacity: 1;
@@ -45,13 +33,23 @@
   }
 }
 
+#line {
+  fill: #000000;
+}
+
+#mark {
+  position: fixed;
+  left: calc(50% - 192px);
+  top: calc(50% - 1px);
+}
+
 #list {
-  flex-direction: column;
+  background: white;
   opacity: 0;
   position: fixed;
   top: 0;
-  left: 35%;
-  width: 30%;
+  left: calc(50% - 128px);
+  width: 256px;
 }
 
 #start {
@@ -84,12 +82,12 @@
   position: relative;
   flex: 1;
   top: 0;
-  height: 45vh;
-  width: 100%;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
 .item > img {
   flex: 1;
+  max-height: 256px;
+  max-width: 256px;
 }

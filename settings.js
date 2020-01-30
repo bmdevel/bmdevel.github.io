@@ -1,8 +1,6 @@
 var settings = {
-  "displaySettings": {
-    "totalItems": 50,
-    "winnerItemIndex": 6
-  },
+  "decelleration": 5,
+  "totalItems": 1000,
   "items": [
     {
       "image_url": "./images/parkuhr.png",
