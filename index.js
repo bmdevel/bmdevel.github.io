@@ -7,26 +7,42 @@ const total = settings.totalItems;
 const items = settings.items;
 
 let spinning = false;
-let chances = [];
 
 let clickBegin;
 let clickEnded;
 let clickY;
 let winIndex;
 
-for(let i = 0; i<items.length; i++) {
-  for(let a = 0; a<items[i].chance; a++) chances[chances.length] = items[i];
+let childs = [];
+
+function shuffle() {
+  let a = 0;
+  settings.items.forEach(item => {
+    let amount = Math.floor(item.chance / 100.0 * total);
+    for(let i = 0; i<amount; i++) {
+      childs[a+i] = item.image_url;
+    }
+    a+=amount;
+  });
+
+  for(let i = childs.length-1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i+1));
+    [childs[i], childs[j]] = [childs[j],childs[i]];
+  }
 }
+
 
 function newSpin() {
   list.style.top = '0';
   while(list.lastChild) list.removeChild(list.lastChild);
+  
+  shuffle();
 
-  for(let i = 0; i<total; i++) {
+  for(let i = 0; i<childs.length; i++) {
     let e = dummy.cloneNode(true);
     e.style.display = '';
-    e.children[0].src = chances[Math.floor(Math.random() * chances.length)].image_url;
-    list.append(e);
+    e.children[0].src = childs[i];
+    list.appendChild(e);
   }
 }
 
@@ -57,63 +73,72 @@ document.addEventListener('touchend', e => {
     let diffTime = clickEnded - clickBegin;
     let diffY = clickY - e.changedTouches[0].screenY;
 
-    let v = diffY/diffTime*30;
-    let i = 0;
+    let v = diffY/diffTime*70;
 
-    const move = () => {
-      let i1 = Math.floor(i-(v-=decelleration/10));
+    if(diffY<100) {
+      clickBegin = undefined;
+      clickEnded = undefined;
 
-      let p = list.animate([
-        {
-          top: `${i}px`,
-        },
-        {
-          top: `${i1}px`,
-        }
-      ], 1);
-      p.onfinish = () => {
-        i = i1;
-        if(v>=0) {
-          move();
-        } else {
-          list.style.top = `${i1}px`;
+    } else {
+      let i = 0;
 
-          winIndex = -Math.round(i1/256)+1;
+      const move = () => {
+        let i1 = Math.floor(i-(v-=decelleration));
 
-          for(let i = 0; i<total; i++) {
-            if(i!==winIndex) {
-              let e = list.children[i];
-              e.style.animation = 'fadeout 1s';
-              e.style.animationFillMode = 'forwards';
-            }
+        let p = list.animate([
+          {
+            top: `${i}px`,
+          },
+          {
+            top: `${i1}px`,
           }
+        ], 100);
+        p.onfinish = () => {
+          i = i1;
+          if(v>=0) {
+            move();
+          } else {
+            list.style.top = `${i1}px`;
 
-          list.animate([
-            {
-              top: `${i1}px`,
-            },
-            {
-              top: `-${(winIndex-1)*256}px`,
-            },
-          ], 1000).onfinish = () => {
-            list.style.top = `-${(winIndex-1)*256}px`;
+            winIndex = -Math.round(i1/256)+1;
 
-            setTimeout(() => {
-              list.style.animation = 'fadeout 1s';
-              list.style.animationFillMode = 'forwards';
+            for(let i = 0; i<total; i++) {
+              if(i!==winIndex) {
+                let e = list.children[i];
+                e.style.animation = 'fadeout 1s';
+                e.style.animationFillMode = 'forwards';
+              }
+            }
 
-              start.style.animation = 'fadein 1s';
-              start.style.animationFillMode = 'forwards';
+            list.animate([
+              {
+                top: `${i1}px`,
+              },
+              {
+                top: `-${(winIndex-1)*256}px`,
+              },
+            ], 1000).onfinish = () => {
+              list.style.top = `-${(winIndex-1)*256}px`;
 
-              spinning = false;
-            }, 1000);
-          };
+              setTimeout(() => {
+                list.style.animation = 'fadeout 1s';
+                list.style.animationFillMode = 'forwards';
 
-          clickEnded = false;
-          clickBegin = false;
-        }
+                start.style.animation = 'fadein 1s';
+                start.style.animationFillMode = 'forwards';
+
+                setTimeout(() => {
+                  spinning = false;
+                }, 1000);
+              }, 1000);
+            };
+
+            clickEnded = false;
+            clickBegin = false;
+          }
+        };
       };
-    };
-    move();
+      move();
+    }
   }
 });
