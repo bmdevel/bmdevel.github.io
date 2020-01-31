@@ -1,5 +1,5 @@
 var settings = {
-  "decelleration": 5,
+  "decelleration": 15,
   "totalItems": 1000,
   "items": [
     {

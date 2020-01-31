@@ -14,10 +14,16 @@ let clickY;
 let winIndex;
 
 let childs = [];
+items.forEach(item => {
+  let e = document.createElement('link');
+  e.rel = 'preload';
+  e.href = item.image_url;
+  document.head.appendChild(e);
+});
 
 function shuffle() {
   let a = 0;
-  settings.items.forEach(item => {
+  items.forEach(item => {
     let amount = Math.floor(item.chance / 100.0 * total);
     for(let i = 0; i<amount; i++) {
       childs[a+i] = item.image_url;
@@ -30,7 +36,6 @@ function shuffle() {
     [childs[i], childs[j]] = [childs[j],childs[i]];
   }
 }
-
 
 function newSpin() {
   list.style.top = '0';
@@ -83,7 +88,7 @@ document.addEventListener('touchend', e => {
       let i = 0;
 
       const move = () => {
-        let i1 = Math.floor(i-(v-=decelleration));
+        let i1 = Math.floor(i-(v-=decelleration)*8);
 
         let p = list.animate([
           {
@@ -92,7 +97,7 @@ document.addEventListener('touchend', e => {
           {
             top: `${i1}px`,
           }
-        ], 100);
+        ], 800);
         p.onfinish = () => {
           i = i1;
           if(v>=0) {
